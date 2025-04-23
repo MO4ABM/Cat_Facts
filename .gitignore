@@ -1,0 +1,17 @@
+# Python Bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/           # Ignore __pycache__ directory
+
+# Virtual Environment
+.env/                  # Ignore virtual environment directory
+
+# Editor/IDE files
+.vscode/               # VS Code settings
+.idea/                 # JetBrains IDEs like PyCharm
+*.swp                  # Swap files for vim
+
+# Operating System files
+.DS_Store              # macOS system files
+Thumbs.db              # Windows system files

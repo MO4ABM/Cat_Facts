@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cat Facts</title>
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --dark: #292f36;
+            --light: #f7fff7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            z-index: -1;
+        }
+        
+        /* Animated background elements */
+        .bg-element {
+            position: absolute;
+            opacity: 0.15;
+            font-size: var(--size);
+            color: var(--color, var(--primary));
+            z-index: -1;
+            animation: float var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(var(--rotation));
+            }
+            50% {
+                transform: translate(var(--x), var(--y)) rotate(calc(var(--rotation) + 10deg));
+            }
+            100% {
+                transform: translate(0, 0) rotate(var(--rotation));
+            }
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            width: 90%;
+            padding: 2rem;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 2rem;
+            perspective: 1000px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+        }
+        
+        /* Common styles for both containers */
+        .widget-container {
+            flex: 1;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+        }
+        
+        /* Fact container specific styles */
+        .fact-text {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--dark);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .fact-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: -2rem;
+            left: -1rem;
+            z-index: -1;
+        }
+        
+        .fact-text::after {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            bottom: -3rem;
+            right: -1rem;
+            z-index: -1;
+        }
+        
+        /* Image container specific styles */
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cat-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+            border-radius: 0.5rem;
+        }
+        
+        .refresh-btn {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .refresh-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+        
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <!-- Background elements will be added here by JavaScript -->
+    
+    <div class="container">
+        <h1>🐱 Random Cat Facts 🐱</h1>
+        
+        <div class="content">
+            <div class="widget-container" id="factContainer">
+                <p class="fact-text">{{ fact }}</p>
+            </div>
+            <!--
+            <div class="widget-container" id="imageContainer">
+                <div class="image-wrapper">
+                    <img src="{{ img }}" alt="Random cat image" class="cat-image" id="catImage">
+                </div>
+            </div>
+            -->
+        </div>
+        
+        <button class="refresh-btn" onclick="window.location.reload()">Get Another Fact</button>
+    </div>
+    
+    <footer>
+        <p>© 2025 Cat Facts - Made with ❤️ for cat lovers</p>
+    </footer>
+    
+    <script>
+        // Background elements configuration
+        const bgElements = [
+            { emoji: '🐾', count: 15, type: 'paw' },
+            { emoji: '🐱', count: 8, type: 'cat' },
+            { emoji: '🐟', count: 6, type: 'fish' },
+            { emoji: '🧶', count: 5, type: 'yarn' },
+            { emoji: '🥛', count: 4, type: 'milk' },
+            { emoji: '😺', count: 7, type: 'catface' }
+        ];
+        
+        // Create animated background elements
+        function createBackgroundElements() {
+            const body = document.querySelector('body');
+            
+            bgElements.forEach(element => {
+                for (let i = 0; i < element.count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('bg-element');
+                    el.classList.add(`bg-${element.type}`);
+                    el.innerHTML = element.emoji;
+                    
+                    // Random properties for animation
+                    const size = Math.random() * 3 + 1;
+                    const rotation = Math.random() * 360;
+                    const duration = Math.random() * 15 + 10; // 10-25 seconds
+                    const delay = Math.random() * 5; // 0-5 seconds delay
+                    const x = (Math.random() - 0.5) * 100; // -50px to 50px
+                    const y = (Math.random() - 0.5) * 100; // -50px to 50px
+                    
+                    // Set CSS variables for animation
+                    el.style.setProperty('--size', `${size}rem`);
+                    el.style.setProperty('--rotation', `${rotation}deg`);
+                    el.style.setProperty('--duration', `${duration}s`);
+                    el.style.setProperty('--delay', `${delay}s`);
+                    el.style.setProperty('--x', `${x}px`);
+                    el.style.setProperty('--y', `${y}px`);
+                    
+                    // Random position
+                    el.style.left = `${Math.random() * 100}%`;
+                    el.style.top = `${Math.random() * 100}%`;
+                    
+                    // Random color for some elements
+                    if (Math.random() > 0.5) {
+                        const hue = Math.floor(Math.random() * 60) + 340; // Red to pink hues
+                        el.style.setProperty('--color', `hsl(${hue}, 80%, 65%)`);
+                    }
+                    
+                    body.appendChild(el);
+                }
+            });
+        }
+        
+        // 3D effect on mouse move
+        function addMouseMoveEffect() {
+            const factContainer = document.getElementById('factContainer');
+            const imageContainer = document.getElementById('imageContainer');
+            const catImage = document.getElementById('catImage');
+            const content = document.querySelector('.content');
+            
+            content.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = content.getBoundingClientRect();
+                const x = (e.clientX - left) / width - 0.5;
+                const y = (e.clientY - top) / height - 0.5;
+                
+                // Rotate containers based on mouse position
+                factContainer.style.transform = `
+                    rotateY(${x * 10}deg)
+                    rotateX(${y * -10}deg)
+                    translateZ(20px)
+                `;
+                
+                imageContainer.style.transform = `
+                    rotateY(${x * 10}deg)
+                    rotateX(${y * -10}deg)
+                    translateZ(20px)
+                `;
+                
+                // Subtle parallax effect on the image
+                catImage.style.transform = `scale(1.05) translateX(${x * -20}px) translateY(${y * -20}px)`;
+                
+                // Move background elements slightly for parallax effect
+                document.querySelectorAll('.bg-element').forEach(el => {
+                    const depth = Math.random() * 0.5 + 0.5; // Random depth factor
+                    el.style.transform = `translate(${x * 30 * depth}px, ${y * 30 * depth}px) rotate(var(--rotation))`;
+                });
+            });
+            
+            // Reset on mouse leave
+            content.addEventListener('mouseleave', () => {
+                factContainer.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+                imageContainer.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+                catImage.style.transform = 'scale(1) translateX(0) translateY(0)';
+                
+                // Reset background elements
+                document.querySelectorAll('.bg-element').forEach(el => {
+                    el.style.transform = 'translate(0, 0) rotate(var(--rotation))';
+                });
+            });
+        }
+        
+        // Add interactive hover effect to background elements
+        function addElementInteraction() {
+            document.querySelectorAll('.bg-element').forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    el.style.transform = 'scale(1.5) rotate(var(--rotation))';
+                    el.style.opacity = '0.4';
+                    el.style.transition = 'all 0.3s ease';
+                });
+                
+                el.addEventListener('mouseout', () => {
+                    el.style.transform = 'scale(1) rotate(var(--rotation))';
+                    el.style.opacity = '0.15';
+                    el.style.transition = 'all 0.3s ease';
+                });
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createBackgroundElements();
+            addMouseMoveEffect();
+            addElementInteraction();
+            
+            // Add a subtle animation to the cat image
+            const catImage = document.getElementById('catImage');
+            catImage.addEventListener('load', () => {
+                catImage.style.animation = 'pulse 5s infinite ease-in-out';
+            });
+        });
+        
+        // Add a subtle pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.03); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

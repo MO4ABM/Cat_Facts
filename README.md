@@ -37,7 +37,7 @@ cat_facts/<br>├── cat_facts/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    ```bash
    python -m venv .env
    ```
-   <b>NOTE: In order for ```run_server.bat``` to work, please stick to ```.env``` name.<b>
+   <b>NOTE: In order for ```run_server.bat``` to work later on, please stick to ```.env``` name.<b>
 2. Activate the virtual environment:
     * On Windows:
         ```bash

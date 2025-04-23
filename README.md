@@ -35,16 +35,16 @@ cat_facts/<br>├── cat_facts/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 1. First, create a virtual environment (recommended):
 
    ```bash
-   python -m venv venv
+   python -m venv .env
    ```
 2. Activate the virtual environment:
     * On Windows:
         ```bash
-        venv\Scripts\activate
+        .env\Scripts\activate
         ```
     * On macOS/Linux:
         ```bash
-        source venv/bin/activate
+        source .env/bin/activate
 
         ```
 3. Install required packages:

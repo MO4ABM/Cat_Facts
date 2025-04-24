@@ -98,7 +98,7 @@ The scraper uses **Selenium** to navigate to the `/home` endpoint and extract th
    ```
 
    This will:
-   - Launch a headless Chrome browser using Selenium.
+   - Launch a Chrome browser using Selenium.
    - Navigate to the `/home` page of your Django app.
    - Extract the cat fact displayed on the page.
    - Print the extracted cat fact to the console.

@@ -1,6 +1,6 @@
 # Cat Facts Project
 
-This project consists of a Django-based API that serves random cat facts, along with a scraper using Selenium to extract the cat fact from the website.<br>
+This project consists of a Django-based API that serves random cat facts, and a scraper using Selenium to extract the cat fact from the website.<br>
 ![Screenshot](screenshot.jpg)
 
 ## Project Structure

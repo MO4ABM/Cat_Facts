@@ -29,7 +29,6 @@ cat_facts/<br>├── cat_facts/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - **Python 3.x** (preferably Python 3.7 or higher)
 - **Django** (to run the web server and API)
 - **Selenium** (for the scraper)
-- **ChromeDriver** (to run the scraper with Chrome) *optional
   
 ### Install Required Python Packages
 
@@ -47,7 +46,6 @@ cat_facts/<br>├── cat_facts/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     * On macOS/Linux:
         ```bash
         source .env/bin/activate
-
         ```
 3. Install required packages:
     ```bash
